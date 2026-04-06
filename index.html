@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Menu Vertical | Barrinha que Desliza e Volta</title>
+    <style>
+        /* RESET + CONFIGURAÇÃO GLOBAL */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #252839;
+            font-family: 'Segoe UI', 'Poppins', 'Montserrat', system-ui, -apple-system, 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 2rem;
+        }
+
+        /* ========== MENU VERTICAL - OCUPA TODO ESPAÇO ========== */
+        .menu-vertical {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            max-width: 950px;
+            min-width: 280px;
+        }
+
+        /* Cada item do menu */
+        .menu-item {
+            position: relative;
+            display: block;
+            width: 100%;
+        }
+
+        /* Link do menu - OCUPA TODO ESPAÇO DISPONÍVEL */
+        .menu-link {
+            display: block;
+            text-decoration: none;
+            font-size: 2.8rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            padding: 1rem 1.5rem;
+            background: transparent;
+            
+            /* LETRA VAZADA (apenas bordas, meio transparente) */
+            color: transparent;
+            -webkit-text-stroke: 2px #9aa4bf;
+            text-stroke: 2px #9aa4bf;
+            
+            position: relative;
+            width: 100%;
+            text-align: left;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            overflow: visible;
+            border-radius: 12px;
+        }
+
+        /* ===== A BARRINHA QUE FICA NO CANTO ESQUERDO E DESLIZA ===== */
+        /* A barrinha é um elemento separado que fica no início da palavra */
+        .menu-link .barra {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 55px;
+            background: linear-gradient(180deg, #00b4d8, #00e5ff, #00b4d8);
+            border-radius: 4px;
+            box-shadow: 0 0 8px #00e5ff;
+            transition: left 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        /* Quando passa o mouse: a barrinha DESLIZA ATÉ O FIM DA PALAVRA */
+        .menu-link:hover .barra {
+            left: calc(100% - 6px);
+        }
+
+        /* Efeito de pintura/prenchimento que acompanha a barrinha */
+        .menu-link .preenchimento {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(0,180,216,0.2), rgba(0,229,255,0.4));
+            border-radius: 12px;
+            transition: width 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* O preenchimento acompanha a barrinha até o final */
+        .menu-link:hover .preenchimento {
+            width: 100%;
+        }
+
+        /* A palavra vai sendo PINTADA conforme a barrinha desliza */
+        .menu-link:hover {
+            -webkit-text-stroke: 0px transparent;
+            text-stroke: 0px transparent;
+            color: #00e5ff;
+            /* AUMENTA A LETRA */
+            font-size: 3.8rem;
+            letter-spacing: 7px;
+            padding: 1.2rem 1.8rem;
+        }
+
+        /* O conteúdo do link precisa ficar acima dos efeitos */
+        .menu-link span {
+            position: relative;
+            z-index: 2;
+            display: inline-block;
+        }
+
+        /* Responsividade para telas menores */
+        @media (max-width: 750px) {
+            .menu-link {
+                font-size: 2rem;
+                padding: 0.8rem 1rem;
+                -webkit-text-stroke: 1.5px #9aa4bf;
+                letter-spacing: 3px;
+            }
+            .menu-link:hover {
+                font-size: 2.6rem;
+                letter-spacing: 5px;
+                padding: 1rem 1.4rem;
+            }
+            .menu-link .barra {
+                width: 5px;
+                height: 45px;
+            }
+            .menu-link:hover .barra {
+                left: calc(100% - 5px);
+            }
+        }
+
+        @media (max-width: 550px) {
+            .menu-link {
+                font-size: 1.5rem;
+                padding: 0.6rem 0.8rem;
+                -webkit-text-stroke: 1.2px #9aa4bf;
+                letter-spacing: 2px;
+            }
+            .menu-link:hover {
+                font-size: 2rem;
+                letter-spacing: 4px;
+                padding: 0.8rem 1.2rem;
+            }
+            .menu-link .barra {
+                width: 4px;
+                height: 38px;
+            }
+            .menu-link:hover .barra {
+                left: calc(100% - 4px);
+            }
+            .menu-vertical {
+                gap: 1.2rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .menu-link {
+                font-size: 1.2rem;
+                padding: 0.5rem 0.6rem;
+                -webkit-text-stroke: 1px #9aa4bf;
+                letter-spacing: 2px;
+            }
+            .menu-link:hover {
+                font-size: 1.6rem;
+                letter-spacing: 3px;
+                padding: 0.7rem 1rem;
+            }
+            .menu-link .barra {
+                width: 3px;
+                height: 32px;
+            }
+            .menu-link:hover .barra {
+                left: calc(100% - 3px);
+            }
+        }
+
+        /* Foco acessível */
+        .menu-link:focus-visible {
+            outline: 2px solid #00e5ff;
+            outline-offset: 4px;
+            border-radius: 12px;
+        }
+
+        /* Container centralizador */
+        .wrapper {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <ul class="menu-vertical">
+        <li class="menu-item">
+            <a href="#" class="menu-link">
+                <span>home</span>
+                <div class="barra"></div>
+                <div class="preenchimento"></div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="#" class="menu-link">
+                <span>about</span>
+                <div class="barra"></div>
+                <div class="preenchimento"></div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="#" class="menu-link">
+                <span>services</span>
+                <div class="barra"></div>
+                <div class="preenchimento"></div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="#" class="menu-link">
+                <span>team</span>
+                <div class="barra"></div>
+                <div class="preenchimento"></div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="#" class="menu-link">
+                <span>contact</span>
+                <div class="barra"></div>
+                <div class="preenchimento"></div>
+            </a>
+        </li>
+    </ul>
+</div>
+</body>
+</html>
